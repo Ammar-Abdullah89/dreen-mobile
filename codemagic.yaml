@@ -9,9 +9,19 @@ workflows:
     cache:
       cache_paths:
         - ~/.pub-cache
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
     scripts:
+      - flutter config --enable-ios
       - flutter pub get
-      - cd ios && pod install && cd ..
+      - cd ios
+      - pod repo update
+      - pod install
+      - cd ..
       - flutter build ios --release --no-codesign
     artifacts:
       - build/ios/iphoneos/Runner.app
