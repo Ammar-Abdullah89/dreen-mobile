@@ -1,28 +1,12 @@
 workflows:
   ios-build:
     name: iOS Build
-    max_build_duration: 60
     instance_type: mac_mini_m1
     environment:
       flutter: stable
       xcode: latest
-    cache:
-      cache_paths:
-        - ~/.pub-cache
-    triggering:
-      events:
-        - push
-      branch_patterns:
-        - pattern: main
-          include: true
     scripts:
-      - flutter config --enable-ios
       - flutter pub get
-      - cd ios
-      - pod repo update
-      - pod install
-      - cd ..
       - flutter build ios --release --no-codesign
     artifacts:
-      - build/ios/iphoneos/Runner.app
-      - build/ios/iphoneos/*.ipa
+      - build/ios/iphoneos/Runner.ipa
